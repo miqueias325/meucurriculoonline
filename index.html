@@ -57,5 +57,74 @@
     <h2>📄 Objetivo</h2>
     <p>Atuar na área de TI, com foco em segurança da informação e desenvolvimento de sites.</p>
   </div>
+  <!-- SISTEMA DE AVALIAÇÃO -->
+<hr>
+<h2>Avalie meu currículo!</h2>
+
+<!-- ⭐ Avaliação por Estrelas -->
+<div class="rating">
+  <p>Quantas estrelas meu currículo merece?</p>
+  <span class="star" onclick="rate(1)">★</span>
+  <span class="star" onclick="rate(2)">★</span>
+  <span class="star" onclick="rate(3)">★</span>
+  <span class="star" onclick="rate(4)">★</span>
+  <span class="star" onclick="rate(5)">★</span>
+  <p id="feedback-estrelas"></p>
+</div>
+
+<!-- 🔢 Avaliação com Botões -->
+<div class="notas">
+  <p>Ou escolha uma nota:</p>
+  <button onclick="avaliar(1)">1</button>
+  <button onclick="avaliar(2)">2</button>
+  <button onclick="avaliar(3)">3</button>
+  <button onclick="avaliar(4)">4</button>
+  <button onclick="avaliar(5)">5</button>
+  <p id="feedback-nota"></p>
+</div>
+
+<!-- ESTILO -->
+<style>
+  .star {
+    font-size: 30px;
+    cursor: pointer;
+    color: gray;
+    transition: 0.2s;
+  }
+  .star.active,
+  .star:hover {
+    color: gold;
+  }
+
+  button {
+    padding: 8px 14px;
+    margin: 5px;
+    border-radius: 8px;
+    border: none;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  button:hover {
+    background-color: #222;
+  }
+</style>
+
+<!-- JAVASCRIPT -->
+<script>
+  function rate(valor) {
+    const estrelas = document.querySelectorAll('.star');
+    estrelas.forEach((estrela, index) => {
+      estrela.classList.toggle('active', index < valor);
+    });
+    document.getElementById('feedback-estrelas').innerText = `Obrigado pela avaliação de ${valor} estrela(s)!`;
+  }
+
+  function avaliar(nota) {
+    document.getElementById('feedback-nota').innerText = `Você deu nota ${nota}. Obrigado!`;
+  }
+</script>
+
 </body>
 </html>
