@@ -7,10 +7,12 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
+      margin: 0;
+      padding: 20px;
       background-color: #f5f5f5;
       color: #333;
     }
+
     .container {
       background: white;
       padding: 30px;
@@ -19,19 +21,98 @@
       margin: auto;
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
+
     h1 {
       color: #1a73e8;
+      font-size: 28px;
+      margin-top: 0;
     }
+
     h2 {
       border-bottom: 2px solid #ccc;
       padding-bottom: 5px;
+      margin-top: 30px;
     }
+
     ul {
       padding-left: 20px;
+    }
+
+    /* Avaliação */
+    .rating, .notas {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .star {
+      font-size: 35px;
+      cursor: pointer;
+      color: gray;
+      transition: 0.2s;
+      user-select: none;
+    }
+
+    .star.active,
+    .star:hover {
+      color: gold;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 6px;
+      border-radius: 8px;
+      border: none;
+      background-color: #444;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #222;
+    }
+
+    .estrela-caindo {
+      position: fixed;
+      top: -40px;
+      font-size: 24px;
+      animation: cair 4s linear forwards;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    @keyframes cair {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h1>Miqueias de Moura Pereira</h1>
     <p><strong>Email:</strong> miqueiasaguiar325@gmail.com<br>
@@ -51,80 +132,69 @@
     <ul>
       <li>HTML, CSS, JavaScript</li>
       <li>Git e GitHub</li>
-      <li>Analise de Sistemas</li>
+      <li>Análise de Sistemas</li>
     </ul>
 
     <h2>📄 Objetivo</h2>
     <p>Atuar na área de TI, com foco em segurança da informação e desenvolvimento de sites.</p>
+
+    <hr>
+
+    <h2>Avalie meu currículo!</h2>
+
+    <div class="rating">
+      <p>Quantas estrelas meu currículo merece?</p>
+      <span class="star" onclick="rate(1)">★</span>
+      <span class="star" onclick="rate(2)">★</span>
+      <span class="star" onclick="rate(3)">★</span>
+      <span class="star" onclick="rate(4)">★</span>
+      <span class="star" onclick="rate(5)">★</span>
+      <p id="feedback-estrelas"></p>
+    </div>
+
+    <div class="notas">
+      <p>Ou escolha uma nota:</p>
+      <button onclick="avaliar(1)">1</button>
+      <button onclick="avaliar(2)">2</button>
+      <button onclick="avaliar(3)">3</button>
+      <button onclick="avaliar(4)">4</button>
+      <button onclick="avaliar(5)">5</button>
+      <p id="feedback-nota"></p>
+    </div>
+
+    <footer>
+      Criado por Miqueias &copy; 2025
+    </footer>
   </div>
-  <!-- SISTEMA DE AVALIAÇÃO -->
-<hr>
-<h2>Avalie meu currículo!</h2>
 
-<!-- ⭐ Avaliação por Estrelas -->
-<div class="rating">
-  <p>Quantas estrelas meu currículo merece?</p>
-  <span class="star" onclick="rate(1)">★</span>
-  <span class="star" onclick="rate(2)">★</span>
-  <span class="star" onclick="rate(3)">★</span>
-  <span class="star" onclick="rate(4)">★</span>
-  <span class="star" onclick="rate(5)">★</span>
-  <p id="feedback-estrelas"></p>
-</div>
+  <script>
+    function rate(valor) {
+      const estrelas = document.querySelectorAll('.star');
+      estrelas.forEach((estrela, index) => {
+        estrela.classList.toggle('active', index < valor);
+      });
+      document.getElementById('feedback-estrelas').innerText = `Obrigado pela avaliação de ${valor} estrela(s)!`;
+      estrelasCaindo();
+    }
 
-<!-- 🔢 Avaliação com Botões -->
-<div class="notas">
-  <p>Ou escolha uma nota:</p>
-  <button onclick="avaliar(1)">1</button>
-  <button onclick="avaliar(2)">2</button>
-  <button onclick="avaliar(3)">3</button>
-  <button onclick="avaliar(4)">4</button>
-  <button onclick="avaliar(5)">5</button>
-  <p id="feedback-nota"></p>
-</div>
+    function avaliar(nota) {
+      document.getElementById('feedback-nota').innerText = `Você deu nota ${nota}. Obrigado!`;
+    }
 
-<!-- ESTILO -->
-<style>
-  .star {
-    font-size: 30px;
-    cursor: pointer;
-    color: gray;
-    transition: 0.2s;
-  }
-  .star.active,
-  .star:hover {
-    color: gold;
-  }
-
-  button {
-    padding: 8px 14px;
-    margin: 5px;
-    border-radius: 8px;
-    border: none;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  button:hover {
-    background-color: #222;
-  }
-</style>
-
-<!-- JAVASCRIPT -->
-<script>
-  function rate(valor) {
-    const estrelas = document.querySelectorAll('.star');
-    estrelas.forEach((estrela, index) => {
-      estrela.classList.toggle('active', index < valor);
-    });
-    document.getElementById('feedback-estrelas').innerText = `Obrigado pela avaliação de ${valor} estrela(s)!`;
-  }
-
-  function avaliar(nota) {
-    document.getElementById('feedback-nota').innerText = `Você deu nota ${nota}. Obrigado!`;
-  }
-</script>
+    function estrelasCaindo() {
+      for (let i = 0; i < 20; i++) {
+        const estrela = document.createElement("div");
+        estrela.innerText = "⭐";
+        estrela.classList.add("estrela-caindo");
+        estrela.style.left = Math.random() * 100 + "vw";
+        estrela.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(estrela);
+        setTimeout(() => {
+          estrela.remove();
+        }, 4000);
+      }
+    }
+  </script>
 
 </body>
 </html>
