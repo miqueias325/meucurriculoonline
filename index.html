@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -72,22 +73,6 @@
       background-color: #222;
     }
 
-    .estrela-caindo {
-      position: fixed;
-      top: -40px;
-      font-size: 24px;
-      animation: cair 4s linear forwards;
-      z-index: 9999;
-      pointer-events: none;
-    }
-
-    @keyframes cair {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-
     footer {
       text-align: center;
       margin-top: 40px;
@@ -153,13 +138,15 @@
     </div>
 
     <div class="notas">
-      <p>Ou escolha uma nota:</p>
-      <button onclick="avaliar(1)">1</button>
-      <button onclick="avaliar(2)">2</button>
-      <button onclick="avaliar(3)">3</button>
-      <button onclick="avaliar(4)">4</button>
-      <button onclick="avaliar(5)">5</button>
-      <p id="feedback-nota"></p>
+      <p>Deixe um comentário:</p>
+      <input type="text" id="nomePessoa" placeholder="Seu nome" required>
+      <textarea id="comentarioPessoa" placeholder="Deixe seu comentário aqui" rows="4" required></textarea>
+      <button onclick="salvarAvaliacao()">Salvar Avaliação</button>
+    </div>
+
+    <div id="comentariosExibidos">
+      <h3>Comentários:</h3>
+      <!-- Comentários serão exibidos aqui -->
     </div>
 
     <footer>
@@ -167,33 +154,79 @@
     </footer>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDRhGBY8i_mXbGecwMe4RxcZdI2DMukfI",
+      authDomain: "meucurriculoonline-5007f.firebaseapp.com",
+      projectId: "meucurriculoonline-5007f",
+      storageBucket: "meucurriculoonline-5007f.firebasestorage.app",
+      messagingSenderId: "742747071177",
+      appId: "1:742747071177:web:3fa7164c713ec1618c6318",
+      measurementId: "G-1WHNPGECPM"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore(app);
+
     function rate(valor) {
       const estrelas = document.querySelectorAll('.star');
       estrelas.forEach((estrela, index) => {
         estrela.classList.toggle('active', index < valor);
       });
       document.getElementById('feedback-estrelas').innerText = `Obrigado pela avaliação de ${valor} estrela(s)!`;
-      estrelasCaindo();
     }
 
-    function avaliar(nota) {
-      document.getElementById('feedback-nota').innerText = `Você deu nota ${nota}. Obrigado!`;
-    }
+    function salvarAvaliacao() {
+      const nome = document.getElementById("nomePessoa").value;
+      const comentario = document.getElementById("comentarioPessoa").value;
+      const estrelasAtivas = document.querySelectorAll('.star.active').length; 
 
-    function estrelasCaindo() {
-      for (let i = 0; i < 20; i++) {
-        const estrela = document.createElement("div");
-        estrela.innerText = "⭐";
-        estrela.classList.add("estrela-caindo");
-        estrela.style.left = Math.random() * 100 + "vw";
-        estrela.style.animationDuration = (Math.random() * 2 + 2) + "s";
-        document.body.appendChild(estrela);
-        setTimeout(() => {
-          estrela.remove();
-        }, 4000);
+      if (nome && comentario && estrelasAtivas > 0) {
+        db.collection("avaliacoes").add({
+          nome: nome,
+          comentario: comentario,
+          estrelas: estrelasAtivas,
+          timestamp: new Date()
+        }).then(() => {
+          document.getElementById("nomePessoa").value = "";
+          document.getElementById("comentarioPessoa").value = "";
+          alert("Avaliação salva com sucesso!");
+          exibirComentarios();
+        }).catch(error => {
+          console.error("Erro ao salvar avaliação:", error);
+        });
+      } else {
+        alert("Por favor, preencha todos os campos.");
       }
     }
+
+    function exibirComentarios() {
+      const comentariosExibidos = document.getElementById("comentariosExibidos");
+      comentariosExibidos.innerHTML = "<h3>Comentários:</h3>";
+
+      db.collection("avaliacoes").orderBy("timestamp", "desc").get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          const divComentario = document.createElement("div");
+          divComentario.innerHTML = `
+            <p><strong>${data.nome}</strong> avaliou com ${data.estrelas} estrela(s)</p>
+            <p>${data.comentario}</p>
+            <hr>
+          `;
+          comentariosExibidos.appendChild(divComentario);
+        });
+      }).catch(error => {
+        console.error("Erro ao exibir comentários:", error);
+      });
+    }
+
+    window.onload = function() {
+      exibirComentarios();
+    };
   </script>
 
 </body>
