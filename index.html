@@ -24,9 +24,9 @@
 
     .topo {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      gap: 15px;
     }
 
     .nome-foto {
@@ -34,6 +34,8 @@
       align-items: center;
       gap: 15px;
       flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
     }
 
     .foto {
@@ -50,6 +52,25 @@
       margin: 0;
     }
 
+    .botao-download {
+      margin-top: 10px;
+    }
+
+    .botao-download a {
+      background-color: #1a73e8;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .botao-download a:hover {
+      background-color: #0c56c3;
+    }
+
     .dados {
       margin-top: 10px;
       text-align: justify;
@@ -58,6 +79,7 @@
 
     .redes-sociais {
       margin-top: 10px;
+      text-align: center;
     }
 
     .redes-sociais a {
@@ -116,6 +138,10 @@
       <div class="nome-foto">
         <img src="sua-foto.jpg" alt="Foto 3x4 de Miqueias" class="foto">
         <h1>Miqueias de Moura Pereira</h1>
+      </div>
+
+      <div class="botao-download">
+        <a href="curriculo-miqueias.pdf" target="_blank">📄 Visualizar Currículo (PDF)</a>
       </div>
     </div>
 
