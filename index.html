@@ -130,6 +130,16 @@
         display: inline-block;
         text-align: left;
       }
+
+      .botao-download {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media print {
+      #botao-pdf {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -182,8 +192,8 @@
       Criado por Miqueias &copy; 2025
     </footer>
 
-    <div class="botao-download">
-      <button onclick="visualizarCurriculo()">📄 Visualizar Currículo em PDF</button>
+    <div class="botao-download" id="botao-pdf">
+      <button onclick="gerarCurriculoPDF()">📄 Visualizar e Baixar Currículo em PDF</button>
     </div>
   </div>
 
@@ -192,22 +202,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
-    async function visualizarCurriculo() {
-      const element = document.getElementById('curriculo');
-      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
-      const imgData = canvas.toDataURL('image/png');
+    async function gerarCurriculoPDF() {
+      const botao = document.getElementById('botao-pdf');
+      const elemento = document.getElementById('curriculo');
 
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: [canvas.width, canvas.height]
+      botao.style.display = 'none'; // Oculta botão
+
+      // Aguarda para garantir que sumiu
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      const canvas = await html2canvas(elemento, {
+        scale: 2,
+        useCORS: true
       });
 
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-      const blob = pdf.output('blob');
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const { jsPDF } = window.jspdf;
+
+      // Tamanho A4 em pixels a 96 DPI: 794 x 1123 px
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      // Margens conforme ABNT
+      const margemEsq = 30; // 3cm
+      const margemSup = 30; // 3cm
+      const margemDir = 20; // 2cm
+      const margemInf = 20; // 2cm
+
+      const larguraImg = pageWidth - margemEsq - margemDir;
+      const alturaImg = (canvas.height * larguraImg) / canvas.width;
+
+      pdf.addImage(imgData, 'JPEG', margemEsq, margemSup, larguraImg, alturaImg);
+
+      // Mostra e baixa
+      botao.style.display = 'block';
+
+      // Para download automático no celular e PC
+      pdf.save("Curriculo_Miqueias.pdf");
     }
   </script>
 
