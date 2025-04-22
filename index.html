@@ -91,27 +91,6 @@
       color: #777;
     }
 
-    .botao-download {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .botao-download button {
-      background-color: #1a73e8;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-    }
-
-    .botao-download button:hover {
-      background-color: #0c56c3;
-    }
-
     @media (max-width: 600px) {
       .nome-foto {
         justify-content: center;
@@ -130,10 +109,6 @@
         display: inline-block;
         text-align: left;
       }
-
-      .botao-download {
-        margin-bottom: 20px;
-      }
     }
 
     @media print {
@@ -148,7 +123,7 @@
   <div class="container" id="curriculo">
     <div class="topo">
       <div class="nome-foto">
-        <img src="sua-foto.jpg" alt="Foto 3x4 de Miqueias" class="foto">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwcAAAQKCAIAAACaA5FIAAAgAElEQVR4Aey9B1cUWbf/f1/Vvc/zTD..." alt="Foto 3x4 de Miqueias" class="foto">
         <h1>Miqueias de Moura Pereira</h1>
       </div>
     </div>
@@ -191,60 +166,11 @@
     <footer>
       Criado por Miqueias &copy; 2025
     </footer>
-
-    <div class="botao-download" id="botao-pdf">
-      <button onclick="gerarCurriculoPDF()">📄 Visualizar e Baixar Currículo em PDF</button>
-    </div>
   </div>
-
-  <!-- Bibliotecas -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-  <script>
-    async function gerarCurriculoPDF() {
-      const botao = document.getElementById('botao-pdf');
-      const elemento = document.getElementById('curriculo');
-
-      botao.style.display = 'none'; // Oculta botão
-
-      // Aguarda para garantir que sumiu
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      const canvas = await html2canvas(elemento, {
-        scale: 2,
-        useCORS: true
-      });
-
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      const { jsPDF } = window.jspdf;
-
-      // Tamanho A4 em pixels a 96 DPI: 794 x 1123 px
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      // Margens conforme ABNT
-      const margemEsq = 30; // 3cm
-      const margemSup = 30; // 3cm
-      const margemDir = 20; // 2cm
-      const margemInf = 20; // 2cm
-
-      const larguraImg = pageWidth - margemEsq - margemDir;
-      const alturaImg = (canvas.height * larguraImg) / canvas.width;
-
-      pdf.addImage(imgData, 'JPEG', margemEsq, margemSup, larguraImg, alturaImg);
-
-      // Mostra e baixa
-      botao.style.display = 'block';
-
-      // Para download automático no celular e PC
-      pdf.save("Curriculo_Miqueias.pdf");
-    }
-  </script>
 
 </body>
 </html>
+
 
 
 
