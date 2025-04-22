@@ -20,6 +20,10 @@
       max-width: 800px;
       margin: auto;
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      min-height: 500px; /* Garantir que o botão fique no final */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .topo {
@@ -53,13 +57,15 @@
     }
 
     .botao-download {
-      margin-top: 10px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
     }
 
     .botao-download a {
       background-color: #1a73e8;
       color: white;
-      padding: 10px 20px;
+      padding: 8px 16px; /* Botão menor */
       text-decoration: none;
       border-radius: 6px;
       font-weight: bold;
@@ -130,6 +136,8 @@
       }
     }
   </style>
+  <!-- Adicionando jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -138,10 +146,6 @@
       <div class="nome-foto">
         <img src="sua-foto.jpg" alt="Foto 3x4 de Miqueias" class="foto">
         <h1>Miqueias de Moura Pereira</h1>
-      </div>
-
-      <div class="botao-download">
-        <a href="curriculo-miqueias.pdf" target="_blank">📄 Visualizar Currículo (PDF)</a>
       </div>
     </div>
 
@@ -183,8 +187,46 @@
     <footer>
       Criado por Miqueias &copy; 2025
     </footer>
+
+    <div class="botao-download">
+      <!-- Botão para gerar e baixar o currículo -->
+      <a href="#" onclick="gerarPDF()">📄 Gerar Currículo (PDF)</a>
+    </div>
   </div>
+
+  <script>
+    function gerarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Adicionando título
+      doc.setFontSize(22);
+      doc.text("Currículo de Miqueias de Moura Pereira", 20, 20);
+
+      // Adicionando informações
+      doc.setFontSize(12);
+      doc.text("Email: miqueiasaguiar325@gmail.com", 20, 40);
+      doc.text("Telefone: (98) 98122-2399", 20, 50);
+      doc.text("Endereço: Rua Principal, Alancarina II", 20, 60);
+      doc.text("Cidade: Bom Jesus das Selvas – MA", 20, 70);
+      doc.text("Cep: 65395-000", 20, 80);
+
+      doc.text("🎓 Formação: Curso de Análise e Desenvolvimento de Sistemas – Uniasselvi – Em andamento", 20, 100);
+      doc.text("💼 Experiência: Assistente Administrativo – Imis (2022 - 2024)", 20, 110);
+      doc.text("🛠️ Habilidades:", 20, 120);
+      doc.text("HTML, CSS, JavaScript, GitHub, Análise de Sistemas, Modelagem de banco de dados (SQL)", 20, 130);
+      doc.text("📄 Objetivo: Atuar na área de TI, com foco em segurança da informação.", 20, 140);
+
+      // Adicionando rodapé
+      doc.text("Criado por Miqueias © 2025", 20, 200);
+
+      // Gerando o PDF
+      doc.save("Curriculo_Miqueias.pdf");
+    }
+  </script>
+
 </body>
 </html>
+
 
 
