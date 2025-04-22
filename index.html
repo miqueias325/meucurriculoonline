@@ -25,17 +25,20 @@
     .topo {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .nome-foto {
+      display: flex;
+      align-items: center;
+      gap: 15px;
       flex-wrap: wrap;
     }
 
-    .dados {
-      max-width: 65%;
-    }
-
     .foto {
-      width: 100px;
-      height: 133px; /* proporção 3x4 */
+      width: 60px;
+      height: 80px;
       border: 2px solid #ccc;
       border-radius: 8px;
       object-fit: cover;
@@ -44,7 +47,26 @@
     h1 {
       color: #1a73e8;
       font-size: 28px;
-      margin-top: 0;
+      margin: 0;
+    }
+
+    .dados {
+      margin-top: 10px;
+    }
+
+    .redes-sociais {
+      margin-top: 10px;
+    }
+
+    .redes-sociais a {
+      margin-right: 15px;
+      text-decoration: none;
+      color: #1a73e8;
+      font-weight: bold;
+    }
+
+    .redes-sociais a:hover {
+      text-decoration: underline;
     }
 
     h2 {
@@ -65,18 +87,17 @@
     }
 
     @media (max-width: 600px) {
-      .topo {
-        flex-direction: column;
-        align-items: center;
+      .nome-foto {
+        justify-content: center;
         text-align: center;
-      }
-
-      .dados {
-        max-width: 100%;
       }
 
       h1 {
         font-size: 24px;
+      }
+
+      .dados, .redes-sociais {
+        text-align: center;
       }
     }
   </style>
@@ -85,13 +106,22 @@
 
   <div class="container">
     <div class="topo">
-      <div class="dados">
+      <div class="nome-foto">
+        <img src="sua-foto.jpg" alt="Foto 3x4 de Miqueias" class="foto">
         <h1>Miqueias de Moura Pereira</h1>
-        <p><strong>Email:</strong> miqueiasaguiar325@gmail.com<br>
-        <strong>Telefone:</strong> (98) 98122-2399<br>
-        <strong>Localização:</strong> Buriticupu - MA</p>
       </div>
-      <img src="sua-foto.jpg" alt="Foto 3x4 de Miqueias" class="foto">
+    </div>
+
+    <div class="dados">
+      <p><strong>Email:</strong> miqueiasaguiar325@gmail.com<br>
+      <strong>Telefone:</strong> (98) 98122-2399<br>
+      <strong>Localização:</strong> Buriticupu - MA</p>
+    </div>
+
+    <div class="redes-sociais">
+      <a href="https://www.linkedin.com/in/seu-usuario" target="_blank">LinkedIn</a>
+      <a href="https://github.com/seu-usuario" target="_blank">GitHub</a>
+      <a href="https://www.instagram.com/seu-usuario" target="_blank">Instagram</a>
     </div>
 
     <h2>🎓 Formação</h2>
